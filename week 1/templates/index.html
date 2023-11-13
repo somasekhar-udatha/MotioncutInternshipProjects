@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager - Dark Theme</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4">Task Manager</h1>
+        <form action="/" method="post">
+            <input type="hidden" name="action" value="add">
+            <input type="text" name="description" placeholder="Task Description">
+            <input type="datetime-local" name="due_date" placeholder="Due Date and Time">
+            <input type="number" name="priority" placeholder="Priority">
+            <select name="status">
+                <option value="True">Completed</option>
+                <option value="False">Not Completed</option>
+            </select>
+            <button class="bg-blue-500 text-white px-4 py-1 rounded ml-2 hover:bg-blue-700">Add Task</button>
+        </form>
+        
+
+        <ul>
+            {% for task in tasks %}
+            <li class="mb-4 p-4 bg-gray-800 rounded">
+                <div class="mb-2 text-lg">
+                    {{ task.description }}, {{ task.due_date }}, {{ task.priority }}, {{ task.status }}
+                </div>
+                <div class="flex">
+                    <form action="/" method="post">
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="task_num" value="{{ loop.index }}">
+                        <button class="bg-red-500 text-white px-2 rounded mr-2 hover:bg-red-700">Remove</button>
+                    </form>
+                    <!-- Other parts of the HTML remain the same -->
+    <form action="/" method="post">
+    <input type="hidden" name="action" value="add">
+    <input type="text" name="description" placeholder="Task Description">
+    <input type="datetime-local" name="due_date" placeholder="Due Date and Time">
+    <input type="number" name="priority" placeholder="Priority">
+    <select name="status">
+        <option value="True">Completed</option>
+        <option value="False">Not Completed</option>
+    </select>
+    <button class="bg-blue-500 text-white px-4 py-1 rounded ml-2 hover:bg-blue-700">Add Task</button>
+</form>
+
+<!-- Other parts of the HTML remain the same -->
+
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- Display Incomplete Tasks -->
+<div>
+    <h2>Incomplete Tasks</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.description }}, {{ task.due_date }}, {{ task.priority }}, {{ task.status }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Display Completed Tasks -->
+<div>
+    <h2>Completed Tasks</h2>
+    <ul>
+        {% for task in completed %}
+            <li>{{ task.description }}, {{ task.due_date }}, {{ task.priority }}, {{ task.status }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+
+</html>
